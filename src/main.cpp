@@ -1,11 +1,19 @@
 #include <Arduino.h>
 #include "CommunicationCtrl.h"
-#include "LogConfiguration.h"
 
-void setup() {
-  // put your setup code here, to run once:
+#define MASTER
+
+CommunicationCtrl *communicate;
+
+void setup() 
+{
+  Serial.begin(9600);
+  communicate = new CommunicationCtrl();
+  
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+
+void loop() 
+{
+  communicate->loop();
 }
