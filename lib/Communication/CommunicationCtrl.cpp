@@ -2,14 +2,16 @@
  * @file CommunicationCtrl.cpp
  * @author Philip Zellweger (philip.zellweger@hsr.ch)
  * @brief The Communication Controll class contains the FSM for the Sortic Communication Hub
- * @version 0.1
- * @date 2019-11-25
+ * @version 1.1
+ * @date 2019-12-16
  * 
  * @copyright Copyright (c) 2019
  * 
  */
 
 #include "CommunicationCtrl.h"
+
+//======================PUBLIC===========================================================
 
 CommunicationCtrl::CommunicationCtrl() : currentState(State::idle), doActionFPtr(&CommunicationCtrl::doAction_idle)
 {
@@ -18,7 +20,7 @@ CommunicationCtrl::CommunicationCtrl() : currentState(State::idle), doActionFPtr
 
 CommunicationCtrl::~CommunicationCtrl()
 {
-
+    DBFUNCCALLln("CommunicationCtrl::~CommunicationCtrl()");
 }
 
 void CommunicationCtrl::loop()
@@ -30,14 +32,23 @@ void CommunicationCtrl::loop()
 void CommunicationCtrl::loop(Event currentEvent)
 {
     DBFUNCCALLln("CommunicationCtrl::loop(Event)");
+
+    // process current event
     process(currentEvent);
+
+    // process generated event
     process((this->*doActionFPtr)());
 }
 
+//======================PRIVATE==========================================================
+
 void CommunicationCtrl::process(Event e)
 {
-    DBFUNCCALLln("CommunicationCtrl::process()");
+    DBFUNCCALLln("CommunicationCtrl::process(Event)");
     DBEVENTln(String("CommunicationCtrl ") + decodeEvent(e));
+
+    // controll the finite state machine
+    // switch with current state and generated event to next state
     switch (currentState)
     {
     case State::idle:
@@ -157,11 +168,16 @@ void CommunicationCtrl::process(Event e)
     }
 }
 
+//======================State-Functions==================================================
+
+//======================idle=============================================================
+//=======================================================================================
+
 void CommunicationCtrl::entryAction_idle()
 {
     DBSTATUSln("Entering State: idle");
-    currentState = State::idle;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_idle;
+    currentState = State::idle;                         // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_idle;   // set do-action function
 
     currentMillis = millis();
     previousMillisCheckMQTT = currentMillis;
@@ -173,7 +189,7 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_idle()
     DBINFO1ln("State: idle");
     Event retVal = Event::NoEvent;
 
-
+    // send request to i2c slave all 400ms
     currentMillis = millis();
     if ((currentMillis - previousMillisCheckI2C) > 400)
     {
@@ -181,14 +197,12 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_idle()
         pBus.readMessage();
     }
     
-    
+    // if received i2c event is not default event -> do actions
     if(strcmp((char*)(gReceivedI2cMessage.event),"null#######"))
     {
         DBINFO2ln("Decode I2c Event");
         return decodeI2cEvent();
     }
-    
-    
     
     // TEST
     /*
@@ -201,14 +215,13 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_idle()
     }*/
     // TEST
 
-
-    // check for mqtt messages
+    // check for mqtt messages all 400ms
     currentMillis = millis();
-    if ((currentMillis - previousMillisCheckMQTT) > 900)
+    if ((currentMillis - previousMillisCheckMQTT) > 400)
     {
         DBINFO2ln("Check for MQTT message")
         previousMillisCheckMQTT = millis();
-        pComm.loop(); // Unhandled exception here, worked at date 13.12.19 and now not anymore
+        pComm.loop();                                           // Unhandled exception here, worked at date 13.12.19 and now not anymore
     }
     if (!errorMessageBuffer.empty()) // Check for error
     {
@@ -231,16 +244,21 @@ void CommunicationCtrl::exitAction_idle()
     DBSTATUSln("Leaving State: idle");
 }
 
+//======================publish==========================================================
+//=======================================================================================
+
 void CommunicationCtrl::entryAction_publish()
 {
     DBSTATUSln("Entering State: publish");
-    currentState = State::publish;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_publish;
+    currentState = State::publish;                          // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_publish;    // set do-action function
 }
 
 CommunicationCtrl::Event CommunicationCtrl::doAction_publish()
 {
     DBINFO1ln("State: publish")
+
+    // publish message dependent on received i2c message event
     if (!strcmp(gReceivedI2cMessage.event, "PublishSTA#"))
     {
         DBINFO2ln("Publish state");
@@ -275,7 +293,6 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_publish()
     }
     if (!strcmp(gReceivedI2cMessage.event, "PublishINI#"))
     {
-        // needed?
         DBINFO2ln("Publish init message");
         std::shared_ptr<SOInitMessage> tempMessage (new SOInitMessage());
         tempMessage->setMessage();
@@ -287,23 +304,26 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_publish()
 void CommunicationCtrl::exitAction_publish()
 {
     DBSTATUSln("Leaving State: publish");
-    // Reset I2c Event
+
+    // reset i2c received message event
     strcpy(gReceivedI2cMessage.event, "null#######");
 }
 
+//======================boxCommunication=================================================
+//=======================================================================================
 
 void CommunicationCtrl::entryAction_boxCommunication(Event event)
 {
     DBSTATUSln("Entering State: boxCommunication");
-    currentState = State::boxCommunication;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_boxCommunication;
-    currentEvent = event;
+    currentState = State::boxCommunication;                         // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_boxCommunication;   // set do-action function
+    currentEvent = event;                                           // set current event
 }
 
 CommunicationCtrl::Event CommunicationCtrl::doAction_boxCommunication()
 {
     DBINFO1ln("State: boxCommunication");
-    pComm.loop();                       //Check for new Messages
+    pComm.loop();                           //Check for new Messages
     
     if (!errorMessageBuffer.empty())       // Check for error
     {
@@ -321,6 +341,7 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_boxCommunication()
 
     switch (this->currentEvent)
     {
+    // Search an available box for the package
     case Event::SearchBox:
     {
         // Subscribe to available boxes
@@ -374,6 +395,7 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_boxCommunication()
         return Event::NoEvent;
         break;
     }
+    // send request message to available box
     case Event::BoxAvailable:
     {
         // Publish request to choiced box
@@ -398,6 +420,7 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_boxCommunication()
         return Event::NoEvent;
         break;
     }
+    // send acknoledge message to available box
     case Event::ReqBox:
     {
         // Receive Request from choiched box
@@ -434,15 +457,19 @@ void CommunicationCtrl::exitAction_boxCommunication()
     // set i2c write event
     strcpy(gWriteI2cMessage.event, "SortPackage");
     gWriteI2cMessage.targetLine = (uint8_t)sortic.targetLine;
-    // write message
+
+    // write i2c message to slave
     pBus.writeMessage();
 }
+
+//======================arrivCommunication===============================================
+//=======================================================================================
 
 void CommunicationCtrl::entryAction_arrivCommunication()
 {
     DBSTATUSln("Entering State: arrivCommunication");
-    currentState = State::arrivConfirmation;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_arrivCommunication;
+    currentState = State::arrivConfirmation;                                // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_arrivCommunication;         // set do-action function
     pComm.subscribe("Box/" + (String)sortic.ack + "/state");
 }
 
@@ -464,14 +491,20 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_arrivCommunication()
         }
         return retVal;
     }
+    // if state of delivered smart box is retreived package -> write message to slave
     if (!sbStateMessageBuffer.empty())
     {
         if ((sbStateMessageBuffer.front()->state).equals("RetreivedPackage"))
         {
             pComm.unsubscribe("Box/" + (String)sortic.ack + "/state");
             sbStateMessageBuffer.clear();
+
+            // set write i2c message event to package arrive
             strcpy(gWriteI2cMessage.event, "PackageArri");
+
+            // write i2c message to slave
             pBus.writeMessage();
+
             return Event::AnswerReceived;
         }
     }
@@ -486,12 +519,16 @@ void CommunicationCtrl::exitAction_arrivCommunication()
     strcpy(gReceivedI2cMessage.event, "null#######");
 }
 
+//======================bufferSimulation=================================================
+//=======================================================================================
+
 void CommunicationCtrl::entryAction_bufferSimulation()
 {
     DBSTATUSln("Entering State: bufferSimulation");
-    currentState = State::bufferSimulation;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_bufferSimulation;
+    currentState = State::bufferSimulation;                                     // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_bufferSimulation;               // set buffer simulation
 
+    // publish buffer message to buffer topic
     std::shared_ptr<BufferMessage> tempMessage (new BufferMessage());
     tempMessage->setMessage(idCounter++, Consignor::SO1, true, false);
     pComm.publishMessage("SO1/buffer", tempMessage->parseStructToString());
@@ -517,14 +554,20 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_bufferSimulation()
         return retVal;
     }
 
+    // wait till buffer is cleared
     if (!soBufferMessageBuffer.empty())
     {
         if (!soBufferMessageBuffer.front()->full && soBufferMessageBuffer.front()->cleared)
         {
             pComm.unsubscribe("SO1/buffer");
             soBufferMessageBuffer.clear();
+
+            // set i2c write message event to package arrived
             strcpy(gWriteI2cMessage.event, "PackageArri");
+
+            // write i2c message to slave
             pBus.writeMessage();
+
             return Event::AnswerReceived;
         }
     }
@@ -534,17 +577,23 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_bufferSimulation()
 void CommunicationCtrl::exitAction_bufferSimulation()
 {
     DBSTATUSln("Entering State: bufferSimulation");
+
+    // reset received i2c message event
     strcpy(gReceivedI2cMessage.event, "null#######");
 }
+
+//======================errorState=======================================================
+//=======================================================================================
 
 void CommunicationCtrl::entryAction_errorState()
 {
     DBERROR("Entering State: errorState");
-    lastStateBeforeError = currentState;
-    currentState = State::errorState;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_errorState;
+    lastStateBeforeError = currentState;                                    // set last state before error
+    currentState = State::errorState;                                       // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_errorState;                 // set do-action functions
 
     DBINFO2ln("Publish state");
+    // publish state
     std::shared_ptr<SOStateMessage> tempMessage (new SOStateMessage());
     tempMessage->setMessage(idCounter++, Consignor::SO1, (String)("errorState"));
     pComm.publishMessage("Sortic/SO1/status", Message::translateStructToString(tempMessage));
@@ -576,13 +625,16 @@ void CommunicationCtrl::exitAction_errorState()
     DBSTATUSln("Leaving State: errorState");
 }
 
+//======================resetState=======================================================
+//=======================================================================================
+
 void CommunicationCtrl::entryAction_resetState()
 {
     DBERROR("Entering State: resetState");
-    lastStateBeforeError = currentState;
-    currentState = State::resetState;  // state transition
-    doActionFPtr = &CommunicationCtrl::doAction_resetState;
+    currentState = State::resetState;                                                               // set current state
+    doActionFPtr = &CommunicationCtrl::doAction_resetState;                                         // set do-action functions
 
+    // publish state
     DBINFO2ln("Publish state");
     std::shared_ptr<SOStateMessage> tempMessage (new SOStateMessage());
     tempMessage->setMessage(idCounter++, Consignor::SO1, (String)("errorState"));
@@ -593,6 +645,7 @@ CommunicationCtrl::Event CommunicationCtrl::doAction_resetState()
 {
     DBINFO1ln("State: resetState");
 
+    // reset all buffers
     errorMessageBuffer.clear();
     sbAvailableMessageBuffer.clear();
     sbPositionMessageBuffer.clear();
@@ -611,13 +664,20 @@ void CommunicationCtrl::exitAction_resetState()
 
 }
 
+//======================Aux-Functions====================================================
+//=======================================================================================
+
 bool CommunicationCtrl::dynamicBoxChoice()
 {
+    DBFUNCCALLln("CommunicationCtrl::dynamicBoxChoice()");
+    // Implementate dynamic box choice
+        // TODO
     return false;
 }
 
 String CommunicationCtrl::decodeEvent(Event e)
 {
+    DBFUNCCALLln("CommunicationCtrl::decodeEvent(Event)");
     switch (e)
     {
     case Event::NoEvent:
@@ -685,6 +745,7 @@ CommunicationCtrl::Event CommunicationCtrl::decodeI2cEvent()
 
 String CommunicationCtrl::decodeSorticState(SorticState s)
 {
+    DBFUNCCALLln("CommunicationCtrl::decodeSorticState(SorticState)");
     switch(s)
     {
         case SorticState::readRfidVal:
@@ -706,6 +767,7 @@ String CommunicationCtrl::decodeSorticState(SorticState s)
 
 String CommunicationCtrl::decodeLineToString(Line line)
 {
+    DBFUNCCALLln("CommunicationCtrl::decodeLineToString(Line)");
     switch (line)
     {
     case Line::UploadLine:
@@ -723,6 +785,7 @@ String CommunicationCtrl::decodeLineToString(Line line)
 
 String CommunicationCtrl::decodeConsignor(Consignor consignor)
 {
+    DBFUNCCALLln("CommunicationCtrl::decodeConsignor(Consignor)");
     switch (consignor)
     {
     case Consignor::DEFUALTCONSIGNOR:
@@ -740,9 +803,10 @@ String CommunicationCtrl::decodeConsignor(Consignor consignor)
     }
 }
 
-
 /**
- * @brief 
+ * @brief MQTT callbackfunction which will called if a new mqtt message is available
+ * 
+ * - the callback function serialize the received message to the correct buffer
  * 
  * @param topic 
  * @param payload 
@@ -750,7 +814,7 @@ String CommunicationCtrl::decodeConsignor(Consignor consignor)
  */
 void CommunicationCtrl::callback(char* topic, byte* payload, unsigned int length) 
 {
-    DBFUNCCALLln("callback(const char[] topic, byte* payload, unsigned int length)");
+    DBFUNCCALLln("callback(const char*, byte*, unsigned int)");
     String topic_str = String((char*)topic);
     char payload_str[MAX_JSON_PARSE_SIZE];
 
