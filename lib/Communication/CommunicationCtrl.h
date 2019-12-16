@@ -13,14 +13,31 @@
 #define COMMUNICATIONCTRL_H__
 
 #include <Arduino.h>
-#include <Wire.h>
-#include <WiFi.h>
+#include <string.h>
+#include <stdio.h>
+#include <memory>
 
 // own files:
 #include "LogConfiguration.h"
 #include "MainConfiguration.h"
 #include "I2cCommunication.h"
-#include "Messages.h"
+#include "MQTTCommunication.h"
+#include "MessageTranslation.h"
+
+static struct ReceivedI2cMessage gReceivedI2cMessage;
+static struct WriteI2cMessage gWriteI2cMessage;
+
+
+static std::deque<std::shared_ptr<ErrorMessage>> errorMessageBuffer;
+static std::deque<std::shared_ptr<SBAvailableMessage>> sbAvailableMessageBuffer;
+static std::deque<std::shared_ptr<SBPositionMessage>> sbPositionMessageBuffer;
+static std::deque<std::shared_ptr<SBStateMessage>> sbStateMessageBuffer;
+static std::deque<std::shared_ptr<SBToSOHandshakeMessage>> handshakeMessageSBToSOBuffer;
+static std::deque<std::shared_ptr<BufferMessage>> soBufferMessageBuffer;
+
+#define MASTER
+
+//void callback(char* topic, byte* payload, unsigned int length);
 
 /**
  * @brief The Communication Controll class contains the FSM for the Sortic Communication Hub
@@ -31,16 +48,18 @@ class CommunicationCtrl
     //======================PUBLIC===========================================================
     public:
 
+
     /**
      * @brief Line class holds the different lines on the gametable
      * 
      */
     enum class Line
     {
-        UploadLine = 0,
-        Line1 = 1,
-        Line2 = 2,
-        Line3 = 3
+        UploadLine,
+        Line1,
+        Line2,
+        Line3,
+        ErrorLine
     };
 
     /**
@@ -54,8 +73,12 @@ class CommunicationCtrl
         Line targetLine = Line::UploadLine;              ///< target line
         String status = "null";                          ///< status of the Box FSM
         String cargo = "null";
-        String ack = "null";                             ///< ack for handshake vehicle
-        String req = "null";                             ///< req for handshake vehicle
+        String ack = "-1";                             ///< ack for handshake vehicle
+        String req = "-1";                             ///< req for handshake vehicle
+        String targetReg = "null";
+        String targetDet = "null";
+        unsigned int packageId = 0;
+        
     } sortic;
 
     /**
@@ -64,18 +87,18 @@ class CommunicationCtrl
      */
     enum class Event
     {
-        NoEvent = 0,
-        PublishState = 1,
-        PublishPosition = 2,
-        PublishPackage = 3,
-        PublishedPackage = 4,
-        BoxCommunication = 5,
-        ArrivConfirmation = 6,
-        AnswerReceived = 7,
-        NoAnswerReceived = 8,
-        SimulateBuffer = 9,
-        ClearGui = 10,
-        Error = 11
+        NoEvent,
+        Publish,
+        SearchBox,
+        BoxAvailable,
+        ReqBox,
+        AnswerReceived,
+        NoAnswerReceived,
+        SimulateBuffer,
+        ArrivConfirmation,
+        Error,
+        Resume,
+        Reset
     };
     
     /**
@@ -83,6 +106,12 @@ class CommunicationCtrl
      * 
      */
     CommunicationCtrl();
+
+    /**
+     * @brief Destroy the Communication Ctrl object
+     * 
+     */
+    ~CommunicationCtrl();
 
     /**
      * @brief Calls the do-function of the active state and hence generates Events
@@ -105,11 +134,16 @@ class CommunicationCtrl
      */
     void setState(char *state);
 
+    static void callback(char* topic, byte* payload, unsigned int length);
+
     //======================PRIVATE==========================================================
     private:
 
-    I2cCommunication pBus;          ///< Instance of I2cCommunication
-    PackageMessage pPackage;        ///< Instance of PackageMessage
+    I2cCommunication pBus = I2cCommunication( 7, &gReceivedI2cMessage, &gWriteI2cMessage);          ///< Instance of I2cCommunication
+    Communication pComm = Communication(DEFAULT_HOSTNAME, &callback);
+    PackageMessage pPackage;        ///< Instance of PackageMessage  
+
+    unsigned long long idCounter = 0;
 
     /**
      * @brief Enum class holds all possible states
@@ -117,13 +151,23 @@ class CommunicationCtrl
      */
     enum class State
     {
-        idle = 0,                       ///< idle state
-        publishStates = 1,              ///< publish states state
-        publishPackage = 2,             ///< publish package state
-        publishPosition = 3,            ///< publish position state
-        gui = 4,                        ///< gui state
-        boxCommunication = 5,           ///< box communication state
-        arrivConfirmation = 6           ///< arriv confirmation state
+        idle,                           ///< idle state
+        publish,                        ///< publish messages
+        boxCommunication,               ///< box communication state
+        arrivConfirmation,              ///< arriv confirmation state
+        bufferSimulation,
+        errorState,
+        resetState
+    };
+
+    enum class SorticState
+    {
+        readRfidVal,
+        waitForSort,
+        sortPackageInBox,
+        waitForArriv,
+        errorState,
+        resetState
     };
 
 
@@ -134,12 +178,17 @@ class CommunicationCtrl
     unsigned long currentMillis = 0;          ///< store current time
     unsigned long previousMillis = 0;         ///< store last time
     unsigned long previousMillisPublish = 0;  ///< store last publish time
+    unsigned long previousMillisCheckMQTT = 0;
+    unsigned long previousMillisCheckI2C = 0;
+
 
     /**
      * @brief Functionpointer to call the current states do-functions
      * 
      */
     Event (CommunicationCtrl::*doActionFPtr)(void) = nullptr;
+
+    void (CommunicationCtrl::*callbackFPtr)(char* topic, byte* payload, unsigned int length) = nullptr;
 
     /**
      * @brief changes the state of the FSM based on the event
@@ -173,7 +222,7 @@ class CommunicationCtrl
      * @brief entry action of the state publish states
      * 
      */
-    void entryAction_publishStates();
+    void entryAction_publish();
 
     /**
      * @brief main action of the state publish states
@@ -182,56 +231,13 @@ class CommunicationCtrl
      *
      * @return Event - gerated Event
      */
-    Event doAction_publishStates();
+    Event doAction_publish();
 
     /**
      * @brief exit action of the state publish states
      * 
      */
-    void exitAction_publishStates();
-
-    /**
-     * @brief entry action of the state publish position
-     * 
-     */
-    void entryAction_publishPosition();
-    
-    /**
-     * @brief main acion of the state publish position
-     * 
-     * - publish position message
-     * 
-     * @return Event - generated Event
-     */
-    Event doAction_publishPosition();
-
-    /**
-     * @brief exit action of the state publish position
-     * 
-     */
-    void exitAction_publishPosition();
-
-    /**
-     * @brief entry action of the state publish package
-     * 
-     */
-    void entryAction_publishPackage();
-
-    /**
-     * @brief main action of the state publish package
-     * 
-     * - get target region of the package
-     * - publish package message
-     * 
-     * @return Event - generated Event
-     */
-    Event doAction_publishPackage();
-
-    /**
-     * @brief exit action of the state publish package
-     * 
-     */
-    void exitAction_publishPackage();
+    void exitAction_publish();
 
     /**
      * @brief entry action of the state box communication
@@ -239,7 +245,7 @@ class CommunicationCtrl
      * - subscribe to available boxes
      * - reset sortic params ack and req
      */
-    void entryAction_boxCommunication();
+    void entryAction_boxCommunication(Event event);
 
     /**
      * @brief main action of the state box communication
@@ -287,13 +293,6 @@ class CommunicationCtrl
      */
     void exitAction_arrivCommunication();
 
-
-    void entryAction_gui(Event e);
-
-    Event doAction_gui();
-
-    void exitAction_gui();
-
     void entryAction_bufferSimulation();
 
     Event doAction_bufferSimulation();
@@ -305,6 +304,12 @@ class CommunicationCtrl
     Event doAction_errorState();
 
     void exitAction_errorState();
+
+    void entryAction_resetState();
+
+    Event doAction_resetState();
+
+    void exitAction_resetState();
 
     /**
      * @brief check MQTT message if error
@@ -326,13 +331,32 @@ class CommunicationCtrl
 
     Event decodeI2cEvent();
 
+    String decodeSorticState(SorticState s);
+
     /**
      * @brief decodes the line
      * 
      * @param line - Line
      * @return String 
      */
-    String decodeLine(Line line);
+    String decodeLineToString(Line line);
+
+    /**
+     * @brief decodes line in string format to Line format
+     * 
+     * @param line - String
+     * @return Line 
+     */ 
+    Line decodeIntToLine(int line);
+
+    /**
+     * @brief decodes consignor
+     * 
+     * @param consignor - Consignor
+     * @return String
+     */
+    String decodeConsignor(Consignor consignor);
+
 };
 
 
