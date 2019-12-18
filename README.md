@@ -27,6 +27,10 @@ The robot is built by different nested state machines and thus executes its task
    - Dependency Graph
    - Collaboration Diagram
 - ToDo's
+- Contributors
+- Changelog
+- License
+- Links to SmartFactory
 
 ## Tools and technologies
 
