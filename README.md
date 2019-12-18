@@ -60,11 +60,18 @@ The communication hub is structured with the following elements.
 
 #### ESP32-DevKitC
 
-The microcontroller used for the communication hub is an [Esp32-DevKitC](https://www.espressif.com/en/products/hardware/esp32-devkitc/overview). The microcontroller is very powerful and has a large memory and is very cheap compared to other microcontrollers. In addition, it has a Wifi chip which enables communication via MQTT.  
+The microcontroller used for the communication hub is an [Esp32-DevKitC](https://www.espressif.com/en/products/hardware/esp32-devkitc/overview). The microcontroller is very powerful and has a large memory and is very cheap compared to other microcontrollers. In addition, it has a Wifi chip which enables communication via MQTT.
+
+![esp32](https://cdn.sos.sk/productdata/90/d5/9dcaac3b/esp32-devkitc.jpg)
+
+[Image: [SOS electronic: Esp32 DevKitC](https://www.soselectronic.de/products/espressif/esp32-devkitc-ver-d-305403)]
 
 #### Logic Level converter
 
-A Logic Level converter is required for the i2c connection. The Logic Level converter converts the signal voltage of the Arduino Uno from 5V to the signal voltage of the Esp32-DevKitC from 3V. 
+A Logic Level converter is required for the i2c connection. The Logic Level converter converts the signal voltage of the Arduino Uno from 5V to the signal voltage of the Esp32-DevKitC from 3V.
+
+![levelconverter](https://www.distrelec.ch/Web/WebShopImages/landscape_large/1-/01/Adafruit-757-30091221-01.jpg)
+[Image: [Distrelec: Logic Level converter](https://www.distrelec.ch/en/bss138-bi-directional-logic-level-converter-adafruit-757-logic-level-converter/p/30091221)]
 
 ## Software
 
