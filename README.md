@@ -136,3 +136,26 @@ The figure below shows the collaboration tree of the main FSM CommunicationCtrl.
 
 - [ ]
 - [ ]
+
+# Contributors
+- [Philip Zellweger](https://github.com/philipzellweger)
+
+# Changelog
+
+V 1.0   -	Release SA HS20 -	[Philip Zellweger](https://github.com/philipzellweger)
+
+# License
+
+MIT License
+
+# Links to SmartFactory
+- [SmartFactory-Sortic](https://github.com/LMazzole/SmartFactory-Sortic)
+- [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic)
+- [SmartFactory_Vehicle-Sortic](https://github.com/LMazzole/SmartFactory_Vehicle-Sortic)
+- [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)
+- [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter)
+- [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub)
+- [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication) for Adafruit Feather M0 Wifi
+- [SmartFactory_MQTTCommunication](https://github.com/philipzellweger/SmartFactory_MQTTCommunication) for Esp32 DevKitC
+- [SmartFactory_I2cCommunication](https://github.com/philipzellweger/SmartFactory_I2cCommunication)
+- [SmartFactory_Messages](https://github.com/philipzellweger/SmartFactory_Messages)
