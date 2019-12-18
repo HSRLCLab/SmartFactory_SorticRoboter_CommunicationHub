@@ -20,6 +20,7 @@ The robot is built by different nested state machines and thus executes its task
      - Logic Level converter
 - Software
    - Finite State Machine
+   - Communication
    - UML
    - Dependency Graph
    - Collaboration Diagram
@@ -74,6 +75,20 @@ The design pattern used to implement the software is the Finite State Machine. T
 ![FSM](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/FSM_MASTER.jpg)
 
 [Image: Finite State Machine SorticRoboter with SorticRoboter CommunicationHub]
+
+#### Communication
+
+Communication with the box via the MQTT protocol is done via the topics shown in the figure below. The messages are sent to the broker to the defined topics and received by the opposite participant.
+
+![TopicTree](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/Topics.jpg)
+
+[Image: Topic tree communication between SorticRoboter and SmartBox]
+
+If a package is available that needs to be sorted into a box, a handshake is performed with an available box. The process flow is shown in the graph below.
+
+![Communicationflow](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/SorticToSmartBox.jpg)
+
+[Image: Process flow communication between SorticRoboter and SmartBox]
 
 #### UML
 
