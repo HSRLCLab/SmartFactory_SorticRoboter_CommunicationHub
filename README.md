@@ -61,7 +61,7 @@ The figure below shows the data model in UML notation. The core of the communica
 ================== IMAGE ===============================
 
 #### Dependency Graph
-The figure below shows the dependency tree of the main FSM SorticCtrl.
+The figure below shows the dependency tree of the main FSM CommunicationCtrl.
 The used extern libraries for the project:
 * [SmartFactory_I2cCommunication](https://github.com/philipzellweger/SmartFactory_I2cCommunication)
 * [SmartFactory_MQTTCommunication](https://github.com/philipzellweger/SmartFactory_MQTTCommunication)
@@ -73,7 +73,7 @@ The used extern libraries for the project:
  
  
 #### Collaboration Diagram
-The figure below shows the collaboration tree of the main FSM SorticCtrl. The arrow simbolizes an instanced object.
+The figure below shows the collaboration tree of the main FSM CommunicationCtrl. The arrow simbolizes an instanced object.
 
 =================== IMAGE ==========================================
 
