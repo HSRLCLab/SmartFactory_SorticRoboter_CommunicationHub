@@ -14,6 +14,8 @@ The robot is built by different nested state machines and thus executes its task
    - Doxygen
    - I2C
    - MQTT
+   - Deque
+   - Shared pointer
 - Hardware
    - SorticRoboter CommunicationHub
      - ESP32-DevKitC
@@ -45,6 +47,14 @@ The connection to the hub is via i2c. For an explanation of the technology and t
 #### MQTT
 
 The communication protocol used to communicate via Wifi is MQTT. For an explanation of the technology look [here](https://github.com/philipzellweger/SmartFactory_MQTTCommunication).
+
+#### Deque
+
+The messages received via MQTT are stored after serialization in a Deque of shared pointers. A Deque is a Queue, which can be accessed from both sides. Here you can find an explanation about [Deque](https://de.cppreference.com/w/cpp/container/deque).
+
+#### Shared pointer
+
+Shared pointers are used to transfer dynamically created objects. The advantage of shared pointers is that you do not need direct control over deleting dynamically created objects. As soon as no pointer points to the created object, the object is automatically deleted. This tool makes the factory design pattern very powerful. An explanation of shared pointer can be found [here](https://de.cppreference.com/w/cpp/memory/shared_ptr).
 
 ## Hardware 
 
