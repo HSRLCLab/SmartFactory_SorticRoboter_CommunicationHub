@@ -1,9 +1,9 @@
 # SmartFactory_SorticRoboter_CommunicationHub
 
-The [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) is the communication module for the [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter). It enables communication via Wifi with the MQTT protocol to the other participants in the SmartFactory project, in example with the [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic). The connection to the [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter) is via i2c data bus. The received messages are serialized for simple and dynamic message management.
+The [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) is the communication module for the [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter). It enables communication via Wifi based on the MQTT protocol amongts all participants in the SmartFactory project, for example with the [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic). The connection to the [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter) is via i2c data bus. The received messages are serialized for simple and dynamic message management.
 
 The programmed algorithm is based on the finite state machine design pattern. 
-The design pattern allows to give the roboter a state and to change it to another state by events.
+The design pattern allows to give the roboter a state and to change its state to another state by events.
 The robot is built by different nested state machines and thus executes its tasks.
 
 
@@ -52,15 +52,15 @@ The communication protocol used to communicate via Wifi is MQTT. For an explanat
 
 #### Deque
 
-The messages received via MQTT are stored after serialization in a Deque of shared pointers. A Deque is a Queue, which can be accessed from both sides. Here you can find an explanation about [Deque](https://de.cppreference.com/w/cpp/container/deque).
+The messages received via MQTT are stored in a Deque of shared pointers after serialization. A Deque is a Queue, which can be accessed from both sides. Here you can find an explanation about [Deque](https://de.cppreference.com/w/cpp/container/deque).
 
 #### Shared pointer
 
-Shared pointers are used to transfer dynamically created objects. The advantage of shared pointers is that you do not need direct control over deleting dynamically created objects. As soon as no pointer points to the created object, the object is automatically deleted. This tool makes the factory design pattern very powerful. An explanation of shared pointer can be found [here](https://de.cppreference.com/w/cpp/memory/shared_ptr).
+Shared pointers are used to handke dynamically created objects. The advantage of shared pointers is that direct control over deleting dynamically created objects is not needed. As soon as no pointer points to the created object, the object is automatically deleted. This concept makes the factory design pattern very powerful. An explanation of shared pointer can be found [here](https://de.cppreference.com/w/cpp/memory/shared_ptr).
 
 ## Hardware 
 
-For the i2c connection between the Arduino Uno and the ESP32-DevKitC a Logic Level converter is required. This is necessary due to the different voltage levels of the microcontrollers, otherwise damage can occur or communication cannot be successfully guaranteed. 
+For the i2c connection between the Arduino Uno and the ESP32-DevKitC a Logic Level converter is required. This is necessary due to the different voltage levels of the microcontrollers, otherwise damage can occur or communication cannot be stable guaranteed. 
 
 ### SorticRoboter CommunicationHub
 
@@ -80,7 +80,7 @@ The microcontroller used for the communication hub is an [Esp32-DevKitC](https:/
 
 #### Logic Level converter
 
-A Logic Level converter is required for the i2c connection. The Logic Level converter converts the signal voltage of the Arduino Uno from 5V to the signal voltage of the Esp32-DevKitC from 3V.
+A Logic Level converter is required for the i2c connection. The Logic Level converter transforms the signal voltage of the Arduino Uno from 5V to the signal voltage of the Esp32-DevKitC from 3.3V.
 
 ![levelconverter](https://www.distrelec.ch/Web/WebShopImages/landscape_large/1-/01/Adafruit-757-30091221-01.jpg)
 [Image: [Distrelec: Logic Level converter](https://www.distrelec.ch/en/bss138-bi-directional-logic-level-converter-adafruit-757-logic-level-converter/p/30091221)]
@@ -89,7 +89,7 @@ A Logic Level converter is required for the i2c connection. The Logic Level conv
 
 #### Finite State Machine
 
-The design pattern used to implement the software is the Finite State Machine. The robot always has a state. The states are transformed into other states by events. The figure below shows the finite state machine of the [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) in read. The [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) has only one finite state machine, but the state for the communication with the [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic) is opened several times.
+The design pattern used to implement the software is the Finite State Machine. The robot always has a state. The states are transformed into other states by events. The figure below shows the finite state machine of the [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) seen in the read area. The [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) has only one Finite State Machine
 
 ![FSM](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/FSM_MASTER.jpg)
 
@@ -97,13 +97,13 @@ The design pattern used to implement the software is the Finite State Machine. T
 
 #### Communication
 
-Communication with the box via the MQTT protocol is done via the topics shown in the figure below. The messages are sent to the broker to the defined topics and received by the opposite participant.
+Communication with the box via the MQTT protocol is done via the topics shown in the figure below. The messages with defined topics are sent to via the broker to to any opposite participant which subscribed to the defined topic.
 
 ![TopicTree](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/Topics.jpg)
 
 [Image: Topic tree communication between SorticRoboter and SmartBox]
 
-If a package is available that needs to be sorted into a box, a handshake is performed with an available box. The process flow is shown in the graph below.
+If an available package needs to be sorted in a [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic) a handshake with an available [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic) is performed. The process flow is shown in the graph below.
 
 ![Communicationflow](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/SorticToSmartBox.jpg)
 
