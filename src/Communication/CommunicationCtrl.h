@@ -242,6 +242,9 @@ class CommunicationCtrl
      * @brief main action of the state publish states
      * 
      * - dependent on the received i2c event publish some stuff
+     * 
+     * @todo correct interpretation of targetDest
+     *       get target reg from package
      *
      * @return Event - gerated Event
      */
