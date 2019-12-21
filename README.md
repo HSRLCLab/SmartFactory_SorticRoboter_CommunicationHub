@@ -9,28 +9,27 @@ The robot is built by different nested state machines and thus executes its task
 
 ## Table of contents
 
-- Tools and technologies
-   - Visual Studio Code
-   - Doxygen
-   - I2C
-   - MQTT
-   - Deque
-   - Shared pointer
-- Hardware
-   - SorticRoboter CommunicationHub
-     - ESP32-DevKitC
-     - Logic Level converter
-- Software
-   - Finite State Machine
-   - Communication
-   - UML
-   - Dependency Graph
-   - Collaboration Diagram
-- ToDo's
-- Contributors
-- Changelog
-- License
-- Links to SmartFactory
+- [Tools and technologies](#tools-and-technologies)
+   - [Visual Studio Code](#visual-studio-code)
+   - [Doxygen](#doxygen)
+   - [I2C](#i2c)
+   - [MQTT](#mqtt)
+   - [Deque](#Deque)
+   - [Shared pointer](#shared-pointer)
+- [Hardware](#hardware)
+   - [SorticRoboter CommunicationHub](#sorticroboter-communicationhub)
+     - [ESP32-DevKitC](#esp32-devkitc)
+     - [Logic Level converter](#logic-level-converter)
+- [Software](#software)
+   - [Finite State Machine](#finite state machine)
+   - [Communication](#communication)
+   - [UML](#uml)
+   - [Dependency Graph](#dependency-graph)
+- [ToDo's](#todo's)
+- [Contributors](#contributors)
+- [Changelog](#changelog)
+- [License](#license)
+- [Links to SmartFactory](#links-to-smartfactory)
 
 ## Tools and technologies
 
