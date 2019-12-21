@@ -1,0 +1,6 @@
+<map id="CommunicationCtrl::exitAction_arrivCommunication" name="CommunicationCtrl::exitAction_arrivCommunication">
+<area shape="rect" id="node1" title="exit action of the state arriv communication" alt="" coords="500,5,700,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a180443f3bbb2d99a0a0cb0f57cee9964" title="changes the state of the FSM based on the event" alt="" coords="312,5,452,47"/>
+<area shape="rect" id="node3" href="$class_communication_ctrl.html#a8039670771b09c855bba25b574947649" title="Calls the do&#45;function of the active state and hence generates Events." alt="" coords="100,13,264,39"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,13,52,39"/>
+</map>

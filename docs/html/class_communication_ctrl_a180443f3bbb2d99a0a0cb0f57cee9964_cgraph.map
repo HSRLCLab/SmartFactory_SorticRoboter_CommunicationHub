@@ -1,0 +1,29 @@
+<map id="CommunicationCtrl::process" name="CommunicationCtrl::process">
+<area shape="rect" id="node1" title="changes the state of the FSM based on the event" alt="" coords="5,463,145,504"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#ac24c6a9909f4e25a2b735db312554519" title="decodes the event of the communication control to a string" alt="" coords="227,5,367,47"/>
+<area shape="rect" id="node3" href="$class_communication_ctrl.html#a48024c3f34bbbe6b351e9c089f54093d" title="entry action of the state arriv communication" alt="" coords="193,71,401,112"/>
+<area shape="rect" id="node5" href="$class_communication_ctrl.html#a9cb1c493b860cf329702122a2f987702" title="entry action of the state box communication" alt="" coords="194,136,401,177"/>
+<area shape="rect" id="node9" href="$class_communication_ctrl.html#a0e84af936cc56ec71979539a98e6ae63" title="entry action of the state buffer simulation" alt="" coords="204,201,391,243"/>
+<area shape="rect" id="node11" href="$class_communication_ctrl.html#a80863e75373d45ce80c6951846c68bd4" title="entry action of the state error state" alt="" coords="221,267,373,308"/>
+<area shape="rect" id="node13" href="$class_communication_ctrl.html#a1f2a8fa4b1e3e61cd0062ecb83bcf932" title="entry action of the state idle" alt="" coords="227,332,367,373"/>
+<area shape="rect" id="node16" href="$class_communication_ctrl.html#aa3ae2a5aeaee9fa69a1bbfbfc57166c3" title="entry action of the state publish states" alt="" coords="227,397,367,439"/>
+<area shape="rect" id="node19" href="$class_communication_ctrl.html#a037f71f24dfbca699e071d91f71d36d8" title="entry action of the state reset state" alt="" coords="220,463,375,504"/>
+<area shape="rect" id="node21" href="$class_communication_ctrl.html#aa0bc9eb4b086b3650d7f19d01b8f935c" title="exit action of the state arriv communication" alt="" coords="197,528,397,569"/>
+<area shape="rect" id="node22" href="$class_communication_ctrl.html#a6902d954443ef880d2461dbd3f0c37c7" title="exit action of the state box communication" alt="" coords="198,593,397,635"/>
+<area shape="rect" id="node23" href="$class_communication_ctrl.html#ab3913390c7e2bc3270e7d4bd712d7237" title="exit action of the state buffer simulation" alt="" coords="208,659,387,700"/>
+<area shape="rect" id="node24" href="$class_communication_ctrl.html#a568041d929325187fc672eda0c52bf65" title="exit action of the state error state" alt="" coords="225,724,369,765"/>
+<area shape="rect" id="node25" href="$class_communication_ctrl.html#a626e63c146faa327a96a4862cc13a847" title="exit action of the idle state" alt="" coords="227,789,367,831"/>
+<area shape="rect" id="node26" href="$class_communication_ctrl.html#ab0ea893dc0cc469c5f26a09c9ea23ae8" title="exit action of the state publish states" alt="" coords="227,855,367,896"/>
+<area shape="rect" id="node27" href="$class_communication_ctrl.html#a81143491fd219b0244bda328a05a5927" title="exit action of the state reset state" alt="" coords="224,920,371,961"/>
+<area shape="rect" id="node4" href="$class_communication_ctrl.html#a573d7ac6df0dadceeec4608c0b4d3bdd" title="main action of the state arriv communication" alt="" coords="449,71,643,112"/>
+<area shape="rect" id="node6" href="$class_communication_ctrl.html#ab10405f5226055e7ae065c3336856c1a" title="main action of the state box communication" alt="" coords="451,136,641,177"/>
+<area shape="rect" id="node7" href="$class_communication_ctrl.html#a7ba805105430bd4234baf495ae8ddad9" title="decodes the consignor to a string" alt="" coords="691,104,831,145"/>
+<area shape="rect" id="node8" href="$class_communication_ctrl.html#a7e60ef7ad38cdd04dea5dd1cd83d4164" title="Choiche a possible box based on datas of how many boxes are available and how many packages for a tar..." alt="" coords="691,169,831,211"/>
+<area shape="rect" id="node10" href="$class_communication_ctrl.html#a98e1b81ec5a759958f623744909629c1" title="main action of the state buffer simulation" alt="" coords="460,201,632,243"/>
+<area shape="rect" id="node12" href="$class_communication_ctrl.html#acef0d66efe5e455448390dc0e6094eda" title="main action of the state error state" alt="" coords="476,267,616,308"/>
+<area shape="rect" id="node14" href="$class_communication_ctrl.html#a7dc6fd656c8a7d732e1840b1fb85e20f" title="main action of the idle state" alt="" coords="476,332,616,373"/>
+<area shape="rect" id="node15" href="$class_communication_ctrl.html#abaf576d8a6cf34a0e7f73ef6f8dc5a29" title="decodes the received i2c event to communication control event" alt="" coords="691,332,831,373"/>
+<area shape="rect" id="node17" href="$class_communication_ctrl.html#a9efbf1b585554a5a2e397b2064cd4cef" title="main action of the state publish states" alt="" coords="476,397,616,439"/>
+<area shape="rect" id="node18" href="$class_communication_ctrl.html#a29951e022d0ee86f5c6632dff81fc709" title="decodes the state of the sortic control to a string" alt="" coords="691,397,831,439"/>
+<area shape="rect" id="node20" href="$class_communication_ctrl.html#ada69d27d26e97b10a654820712e98f9b" title="main action of the state reset state" alt="" coords="476,463,616,504"/>
+</map>

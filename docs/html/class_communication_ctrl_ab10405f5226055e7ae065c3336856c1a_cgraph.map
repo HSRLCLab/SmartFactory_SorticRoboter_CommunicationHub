@@ -1,0 +1,5 @@
+<map id="CommunicationCtrl::doAction_boxCommunication" name="CommunicationCtrl::doAction_boxCommunication">
+<area shape="rect" id="node1" title="main action of the state box communication" alt="" coords="5,39,196,80"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a7ba805105430bd4234baf495ae8ddad9" title="decodes the consignor to a string" alt="" coords="244,5,384,47"/>
+<area shape="rect" id="node3" href="$class_communication_ctrl.html#a7e60ef7ad38cdd04dea5dd1cd83d4164" title="Choiche a possible box based on datas of how many boxes are available and how many packages for a tar..." alt="" coords="244,71,384,112"/>
+</map>

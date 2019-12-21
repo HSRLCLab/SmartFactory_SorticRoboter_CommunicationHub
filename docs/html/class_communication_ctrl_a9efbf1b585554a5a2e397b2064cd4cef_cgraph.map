@@ -1,0 +1,4 @@
+<map id="CommunicationCtrl::doAction_publish" name="CommunicationCtrl::doAction_publish">
+<area shape="rect" id="node1" title="main action of the state publish states" alt="" coords="5,5,145,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a29951e022d0ee86f5c6632dff81fc709" title="decodes the state of the sortic control to a string" alt="" coords="193,5,333,47"/>
+</map>

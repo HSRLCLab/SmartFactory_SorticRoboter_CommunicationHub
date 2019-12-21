@@ -1,0 +1,7 @@
+<map id="CommunicationCtrl::doAction_idle" name="CommunicationCtrl::doAction_idle">
+<area shape="rect" id="node1" title="main action of the idle state" alt="" coords="688,5,828,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a1f2a8fa4b1e3e61cd0062ecb83bcf932" title="entry action of the state idle" alt="" coords="500,5,640,47"/>
+<area shape="rect" id="node3" href="$class_communication_ctrl.html#a180443f3bbb2d99a0a0cb0f57cee9964" title="changes the state of the FSM based on the event" alt="" coords="312,5,452,47"/>
+<area shape="rect" id="node4" href="$class_communication_ctrl.html#a8039670771b09c855bba25b574947649" title="Calls the do&#45;function of the active state and hence generates Events." alt="" coords="100,13,264,39"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title=" " alt="" coords="5,13,52,39"/>
+</map>

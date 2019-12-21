@@ -1,0 +1,4 @@
+<map id="CommunicationCtrl::entryAction_bufferSimulation" name="CommunicationCtrl::entryAction_bufferSimulation">
+<area shape="rect" id="node1" title="entry action of the state buffer simulation" alt="" coords="5,5,192,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a98e1b81ec5a759958f623744909629c1" title="main action of the state buffer simulation" alt="" coords="240,5,412,47"/>
+</map>

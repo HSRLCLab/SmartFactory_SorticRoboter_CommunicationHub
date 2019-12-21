@@ -1,0 +1,4 @@
+<map id="CommunicationCtrl::entryAction_resetState" name="CommunicationCtrl::entryAction_resetState">
+<area shape="rect" id="node1" title="entry action of the state reset state" alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#ada69d27d26e97b10a654820712e98f9b" title="main action of the state reset state" alt="" coords="208,5,348,47"/>
+</map>

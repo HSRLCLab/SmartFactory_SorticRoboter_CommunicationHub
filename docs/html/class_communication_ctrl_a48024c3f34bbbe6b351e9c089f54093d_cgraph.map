@@ -1,0 +1,4 @@
+<map id="CommunicationCtrl::entryAction_arrivCommunication" name="CommunicationCtrl::entryAction_arrivCommunication">
+<area shape="rect" id="node1" title="entry action of the state arriv communication" alt="" coords="5,5,213,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#a573d7ac6df0dadceeec4608c0b4d3bdd" title="main action of the state arriv communication" alt="" coords="261,5,455,47"/>
+</map>

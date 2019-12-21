@@ -1,0 +1,4 @@
+<map id="CommunicationCtrl::doAction_idle" name="CommunicationCtrl::doAction_idle">
+<area shape="rect" id="node1" title="main action of the idle state" alt="" coords="5,5,145,47"/>
+<area shape="rect" id="node2" href="$class_communication_ctrl.html#abaf576d8a6cf34a0e7f73ef6f8dc5a29" title="decodes the received i2c event to communication control event" alt="" coords="193,5,333,47"/>
+</map>
