@@ -21,7 +21,7 @@ The robot is built by different nested state machines and thus executes its task
      - [ESP32-DevKitC](#esp32-devkitc)
      - [Logic Level converter](#logic-level-converter)
 - [Software](#software)
-   - [Finite State Machine](#finite state machine)
+   - [Finite State Machine](#finite-state-machine)
    - [Communication](#communication)
    - [UML](#uml)
    - [Dependency Graph](#dependency-graph)
