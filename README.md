@@ -68,8 +68,6 @@ The communication hub is structured with the following elements.
 - ESP32-DevKitC
 - Logic Level converter
 
-============== IMAGE =======================
-
 #### ESP32-DevKitC
 
 The microcontroller used for the communication hub is an [Esp32-DevKitC](https://www.espressif.com/en/products/hardware/esp32-devkitc/overview). The microcontroller is very powerful and has a large memory and is very cheap compared to other microcontrollers. In addition, it has a Wifi chip which enables communication via MQTT.
@@ -113,7 +111,12 @@ If an available package needs to be sorted in a [SmartFactory_Box-Sortic](https:
 
 The figure below shows the data model in UML notation. The core of the communication hub is the serialization of the received messages. A library has been implemented for this purpose, which performs this serialization.
 
-================== IMAGE ===============================
+<p align="center">
+    <a href=https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/class_communication_ctrl.html>
+        <img src="https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/class_communication_ctrl__coll__graph.png" style="border:none;"/>
+    </a>
+    <p align="center"><small>Click on the image to open doxygen-documentation.</p>
+</p>
 
 #### Dependency Graph
 
@@ -123,16 +126,12 @@ The used extern libraries for the project:
 * [SmartFactory_MQTTCommunication](https://github.com/philipzellweger/SmartFactory_MQTTCommunication)
 * [SmartFactory_Messages](https://github.com/philipzellweger/SmartFactory_Messages)
 
-
- ==================== IMAGE ==================================
- 
- 
- 
-#### Collaboration Diagram
-
-The figure below shows the collaboration tree of the main FSM CommunicationCtrl. The arrow simbolizes an instanced object.
-
-=================== IMAGE ==========================================
+<p align="center">
+    <a href=https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/main_8cpp.html>
+        <img src="https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/main_8cpp__incl.png" style="border:none;"/>
+    </a>
+    <p align="center"><small>Click on the image to open doxygen-documentation.</p>
+</p>
 
 ## ToDo's
 
