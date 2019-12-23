@@ -42,6 +42,10 @@ The development environment used is [Visual Studio Code](https://code.visualstud
 #### Doxygen
 Doxygen was used for documenting the source code. For using Doxygen in Visual Studio code, the [Doxygen Documentation Generator](https://marketplace.visualstudio.com/items?itemName=cschlosser.doxdocgen) extension is available.
 
+#### Fritzing
+
+For the creation of the electrical shema the software Fritzing was used. A link to the software can be found [here](https://fritzing.org/home/).
+
 #### I2C
 
 The connection to the hub is via i2c. For an explanation of the technology and the library look [here](https://github.com/philipzellweger/SmartFactory_I2cCommunication).
