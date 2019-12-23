@@ -111,7 +111,7 @@ If an available package needs to be sorted in a [SmartFactory_Box-Sortic](https:
 The figure below shows the data model in UML notation. The core of the communication hub is the serialization of the received messages. A library has been implemented for this purpose, which performs this serialization.
 
 <p align="center">
-    <a href=https://philipzellweger.github.io/SmartFactory_SorticRoboter/class_communication_ctrl.html>
+    <a href=https://philipzellweger.github.io/SmartFactory_SorticRoboter_CommunicationHub/class_communication_ctrl.html>
         <img src="https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/class_communication_ctrl__coll__graph.png" style="border:none;"/>
     </a>
     <p align="center"><small>Click on the image to open doxygen-documentation.</p>
@@ -126,7 +126,7 @@ The used extern libraries for the project:
 * [SmartFactory_Messages](https://github.com/philipzellweger/SmartFactory_Messages)
 
 <p align="center">
-    <a href=https://philipzellweger.github.io/SmartFactory_SorticRoboter/main_8cpp.html>
+    <a href=https://philipzellweger.github.io/SmartFactory_SorticRoboter_CommunicationHub/main_8cpp.html>
         <img src="https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/html/main_8cpp__incl.png" style="border:none;"/>
     </a>
     <p align="center"><small>Click on the image to open doxygen-documentation.</p>
