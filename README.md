@@ -18,6 +18,7 @@ The robot is built by different nested state machines and thus executes its task
    - [Shared pointer](#shared-pointer)
 - [Hardware](#hardware)
    - [SorticRoboter CommunicationHub](#sorticroboter-communicationhub)
+     - [Electrical shematic](#electrical-shematic)
      - [ESP32-DevKitC](#esp32-devkitc)
      - [Logic Level converter](#logic-level-converter)
 - [Software](#software)
@@ -66,6 +67,18 @@ For the i2c connection between the Arduino Uno and the ESP32-DevKitC a Logic Lev
 The communication hub is structured with the following elements.
 - ESP32-DevKitC
 - Logic Level converter
+
+#### Electrical shematic
+
+The following illustrations show the electro shema of the [SmartFactory_SorticRoboter](https://github.com/philipzellweger/SmartFactory_SorticRoboter). The connection to the [SmartFactory_SorticRoboter_CommunicationHub](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub) is shown on it.
+
+![Breadbord](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/SorticRoboter_with_CommunicationHub_Fritzing/SorticRoboter_with_CommunicationHub_BreadBoard.jpg)
+
+[Image: Breadboard SmartFactory_SorticRoboter with SmartFactory_SorticRoboter_CommunicationHub]
+
+![Electrical shematic](https://github.com/philipzellweger/SmartFactory_SorticRoboter_CommunicationHub/blob/master/docs/SorticRoboter_with_CommunicationHub_Fritzing/SorticRoboter_with_CommunicationHub_electrical_shematic.jpg)
+
+[Image: Electrical shematic SmartFactory_SorticRoboter with SmartFactory_SorticRoboter_CommunicationHub]
 
 #### ESP32-DevKitC
 
